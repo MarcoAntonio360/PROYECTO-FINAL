@@ -1,2 +1,21 @@
 <h2>Iniciar sesión</h2>
-<p>Vista pendiente de desarrollar.</p>
+
+<form (ngSubmit)="entrar()">
+  <div class="campo">
+    <label>Correo</label>
+    <input type="email" name="correo" [(ngModel)]="correo">
+  </div>
+
+  <div class="campo">
+    <label>Contraseña</label>
+    <input type="password" name="contrasena" [(ngModel)]="contrasena">
+  </div>
+
+  <button type="submit" [disabled]="cargando()">{{ cargando() ? 'Entrando…' : 'Entrar' }}</button>
+</form>
+
+@if (mensaje()) {
+  <p class="error">{{ mensaje() }}</p>
+}
+
+<p>¿No tiene cuenta? <a routerLink="/registro">Regístrese aquí</a></p>
