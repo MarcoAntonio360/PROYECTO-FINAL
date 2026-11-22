@@ -1,0 +1,66 @@
+.detalle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 16px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.imagen {
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dbe4f0;
+  color: #1f3a5f;
+  font-size: 96px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.informacion {
+  flex: 1;
+  min-width: 240px;
+}
+
+.categoria {
+  color: #666;
+}
+
+.precio {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cantidad input {
+  width: 70px;
+  padding: 6px;
+}
+
+.principal {
+  padding: 8px 18px;
+  background: #1f3a5f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
+
+.aviso {
+  color: green;
+}

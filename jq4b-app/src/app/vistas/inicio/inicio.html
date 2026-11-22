@@ -1,2 +1,31 @@
-<h2>Inicio</h2>
-<p>Vista pendiente de desarrollar.</p>
+<section class="portada">
+  @if (usuarios.usuarioActual()) {
+    <p>Bienvenido, {{ usuarios.usuarioActual()?.nombre }}</p>
+  }
+  <h1>Tienda Online</h1>
+  <p>Compre desde su casa y reciba su pedido a domicilio. Siga su paquete en el mapa en tiempo real.</p>
+  <div class="botones">
+    <a class="boton" routerLink="/catalogo">Ver catálogo</a>
+    @if (!usuarios.usuarioActual()) {
+      <a class="boton secundario" routerLink="/registro">Crear cuenta</a>
+    }
+  </div>
+</section>
+
+<h2>Productos destacados</h2>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<div class="productos">
+  @for (producto of destacados(); track producto.id) {
+    <div class="tarjeta">
+      <div class="imagen">{{ producto.nombre.charAt(0) }}</div>
+      <h3>{{ producto.nombre }}</h3>
+      <p class="categoria">{{ producto.categoria?.nombre }}</p>
+      <p class="precio">{{ producto.precio | currency }}</p>
+      <a [routerLink]="['/producto', producto.id]">Ver detalle</a>
+    </div>
+  }
+</div>
