@@ -1,0 +1,88 @@
+.contenido {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.entrega,
+.resumen {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.campo input {
+  padding: 8px;
+  margin-top: 4px;
+}
+
+#mapaEntrega {
+  height: 380px;
+  margin-top: 12px;
+  border-radius: 6px;
+}
+
+.ayuda {
+  color: #666;
+  font-size: 14px;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.total {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: right;
+}
+
+button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.principal {
+  width: 100%;
+  background: #1f3a5f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.exito {
+  background: white;
+  border: 1px solid #2e7d32;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.error {
+  color: red;
+}
+
+.aviso {
+  color: green;
+}
+
+@media (max-width: 800px) {
+  .contenido {
+    grid-template-columns: 1fr;
+  }
+}
