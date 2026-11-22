@@ -1,0 +1,18 @@
+<nav>
+  <a routerLink="/inicio">Inicio</a>
+  <a routerLink="/catalogo">Catálogo</a>
+  <a routerLink="/carrito">Carrito ({{ carrito.cantidadTotal() }})</a>
+
+  @if (usuarios.usuarioActual()) {
+    <a routerLink="/mis-pedidos">Mis pedidos</a>
+    @if (usuarios.esAdministrador()) {
+      <a routerLink="/admin/productos">Admin productos</a>
+      <a routerLink="/admin/pedidos">Admin pedidos</a>
+    }
+    <span class="usuario">{{ usuarios.usuarioActual()?.nombre }}</span>
+    <button type="button" (click)="cerrarSesion()">Salir</button>
+  } @else {
+    <a routerLink="/login">Iniciar sesión</a>
+    <a routerLink="/registro">Registro</a>
+  }
+</nav>

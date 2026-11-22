@@ -1,0 +1,37 @@
+<a routerLink="/catalogo">← Volver al catálogo</a>
+
+@if (cargando()) {
+  <p>Cargando producto…</p>
+}
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (producto(); as p) {
+  <div class="detalle">
+    <div class="imagen">{{ p.nombre.charAt(0) }}</div>
+
+    <div class="informacion">
+      <h2>{{ p.nombre }}</h2>
+      <p class="categoria">{{ p.categoria?.nombre }}</p>
+      <p>{{ p.descripcion }}</p>
+      <p class="precio">{{ p.precio | currency }}</p>
+
+      @if (p.existencia > 0) {
+        <p>Disponibles: {{ p.existencia }}</p>
+        <div class="cantidad">
+          <label>Cantidad</label>
+          <input type="number" min="1" [max]="p.existencia" [(ngModel)]="cantidad">
+        </div>
+        <button type="button" class="principal" (click)="agregar()">Agregar al carrito</button>
+      } @else {
+        <p class="error">Producto agotado</p>
+      }
+
+      @if (aviso()) {
+        <p class="aviso">{{ aviso() }} <a routerLink="/carrito">Ver carrito</a></p>
+      }
+    </div>
+  </div>
+}

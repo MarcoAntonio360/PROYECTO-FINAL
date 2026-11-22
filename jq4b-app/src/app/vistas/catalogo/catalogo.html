@@ -1,0 +1,49 @@
+<h2>Catálogo de productos</h2>
+
+<div class="filtro">
+  <label>Categoría</label>
+  <select [ngModel]="idCategoria()" (ngModelChange)="cambiarCategoria($event)">
+    <option [ngValue]="0">Todas</option>
+    @for (categoria of categorias.categorias(); track categoria.id) {
+      <option [ngValue]="categoria.id">{{ categoria.nombre }}</option>
+    }
+  </select>
+</div>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (aviso()) {
+  <p class="aviso">{{ aviso() }}</p>
+}
+
+@if (cargando()) {
+  <p>Cargando productos…</p>
+}
+
+<div class="productos">
+  @for (producto of productos.productos(); track producto.id) {
+    <div class="tarjeta">
+      <div class="imagen">{{ producto.nombre.charAt(0) }}</div>
+      <h3>{{ producto.nombre }}</h3>
+      <p class="categoria">{{ producto.categoria?.nombre }}</p>
+      <p class="precio">{{ producto.precio | currency }}</p>
+      @if (producto.existencia > 0) {
+        <p>Disponibles: {{ producto.existencia }}</p>
+      } @else {
+        <p class="error">Agotado</p>
+      }
+      <div class="acciones">
+        <a [routerLink]="['/producto', producto.id]">Ver detalle</a>
+        <button type="button" [disabled]="producto.existencia === 0" (click)="agregar(producto)">
+          Agregar
+        </button>
+      </div>
+    </div>
+  } @empty {
+    @if (!cargando()) {
+      <p>No hay productos en esta categoría.</p>
+    }
+  }
+</div>
