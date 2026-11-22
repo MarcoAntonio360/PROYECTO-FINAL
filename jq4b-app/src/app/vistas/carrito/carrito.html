@@ -1,2 +1,61 @@
-<h2>Carrito</h2>
-<p>Vista pendiente de desarrollar.</p>
+<h2>Carrito de compras</h2>
+
+@if (carrito.items().length > 0) {
+  <div class="contenedor-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of carrito.items(); track item.idProducto) {
+          <tr>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.precio | currency }}</td>
+            <td class="cantidad">
+              <button
+                type="button"
+                [disabled]="item.cantidad === 1"
+                (click)="carrito.cambiarCantidad(item.idProducto, item.cantidad - 1)"
+              >
+                -
+              </button>
+              <span>{{ item.cantidad }}</span>
+              <button
+                type="button"
+                (click)="carrito.cambiarCantidad(item.idProducto, item.cantidad + 1)"
+              >
+                +
+              </button>
+            </td>
+            <td>{{ (item.precio * item.cantidad) | currency }}</td>
+            <td>
+              <button type="button" class="peligro" (click)="carrito.quitar(item.idProducto)">
+                Quitar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <p class="total">Total: {{ carrito.total() | currency }}</p>
+
+  <div class="acciones">
+    <button type="button" class="peligro" (click)="carrito.vaciar()">Vaciar carrito</button>
+    <button type="button" class="principal" (click)="continuar()">Finalizar compra</button>
+  </div>
+
+  @if (aviso()) {
+    <p class="error">{{ aviso() }} <a routerLink="/login">Ir a iniciar sesión</a></p>
+  }
+} @else {
+  <p>Su carrito está vacío.</p>
+  <a routerLink="/catalogo">Ir al catálogo</a>
+}
