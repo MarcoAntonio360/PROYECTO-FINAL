@@ -1,0 +1,33 @@
+@if (productos().length > 0) {
+  <div class="contenedor-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Existencia</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (producto of productos(); track producto.id) {
+          <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.categoria?.nombre }}</td>
+            <td>{{ producto.precio | currency }}</td>
+            <td>{{ producto.existencia }}</td>
+            <td class="acciones">
+              <button type="button" (click)="alEditar.emit(producto)">Editar</button>
+              <button type="button" class="peligro" (click)="alEliminar.emit(producto)">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <p>No hay productos para mostrar.</p>
+}

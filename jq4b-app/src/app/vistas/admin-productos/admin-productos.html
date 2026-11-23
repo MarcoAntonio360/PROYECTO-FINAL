@@ -1,2 +1,66 @@
 <h2>Administración de productos</h2>
-<p>Vista pendiente de desarrollar.</p>
+
+<section class="formulario">
+  <h3>{{ idEditando() ? 'Editar producto ' + idEditando() : 'Nuevo producto' }}</h3>
+
+  <form (ngSubmit)="guardar()">
+    <div class="campo">
+      <label>Nombre</label>
+      <input type="text" name="nombre" [(ngModel)]="nombre">
+    </div>
+
+    <div class="campo">
+      <label>Descripción (opcional)</label>
+      <input type="text" name="descripcion" [(ngModel)]="descripcion">
+    </div>
+
+    <div class="campo">
+      <label>Precio</label>
+      <input type="number" name="precio" min="0" step="0.01" [(ngModel)]="precio">
+    </div>
+
+    <div class="campo">
+      <label>Existencia</label>
+      <input type="number" name="existencia" min="0" step="1" [(ngModel)]="existencia">
+    </div>
+
+    <div class="campo">
+      <label>Imagen (opcional)</label>
+      <input type="text" name="imagen" [(ngModel)]="imagen">
+    </div>
+
+    <div class="campo">
+      <label>Categoría</label>
+      <select name="idCategoria" [(ngModel)]="idCategoria">
+        <option [ngValue]="0">Seleccione…</option>
+        @for (categoria of categorias.categorias(); track categoria.id) {
+          <option [ngValue]="categoria.id">{{ categoria.nombre }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="botones">
+      <button type="submit" class="principal" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : (idEditando() ? 'Guardar cambios' : 'Crear producto') }}
+      </button>
+
+      @if (idEditando()) {
+        <button type="button" (click)="cancelar()">Cancelar</button>
+      }
+    </div>
+  </form>
+
+  @if (mensaje()) {
+    <p [class.exito]="exito()" [class.error]="!exito()">{{ mensaje() }}</p>
+  }
+</section>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (cargando()) {
+  <p>Cargando productos…</p>
+} @else {
+    <app-tabla-productos [productos]="productos.productos()" (alEditar)="editar($event)" (alEliminar)="eliminar($event)" />
+}
