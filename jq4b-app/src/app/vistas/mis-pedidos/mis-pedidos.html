@@ -1,2 +1,68 @@
 <h2>Mis pedidos</h2>
-<p>Vista pendiente de desarrollar.</p>
+@if (usuarios.usuarioActual()) {
+  <p>
+    Tiempo real:
+    <span [class]="hub.claseEstado()">{{ hub.estadoConexion() }}</span>
+  </p>
+}
+
+@if (!usuarios.usuarioActual()) {
+  <p>Debe iniciar sesión para ver sus pedidos.</p>
+  <a routerLink="/login">Iniciar sesión</a>
+} @else {
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+    <p>Cargando pedidos…</p>
+  }
+
+  @if (pedidos.pedidos().length > 0) {
+    <div class="contenedor-tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Fecha</th>
+            <th>Dirección</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pedido of pedidos.pedidos(); track pedido.id) {
+            <tr>
+              <td>{{ pedido.id }}</td>
+              <td>{{ pedido.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ pedido.direccionEntrega }}</td>
+              <td>{{ pedido.total | currency }}</td>
+              <td>{{ pedido.estado }}</td>
+              <td>
+                <button type="button" (click)="verSeguimiento(pedido)">Ver seguimiento</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (!cargando() && !error()) {
+    <p>Aún no tiene pedidos.</p>
+    <a routerLink="/catalogo">Ir al catálogo</a>
+  }
+
+  <section class="seguimiento">
+    <h3>Seguimiento del pedido</h3>
+
+    @if (pedidoSeleccionado(); as seleccionado) {
+      <p>
+        Pedido {{ seleccionado.id }} · Estado: <strong>{{ seleccionado.estado }}</strong>
+      </p>
+    } @else {
+      <p class="ayuda">Pulse "Ver seguimiento" en un pedido para verlo en el mapa.</p>
+    }
+
+    <div id="mapaSeguimiento"></div>
+  </section>
+}

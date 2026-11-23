@@ -1,0 +1,44 @@
+.contenedor-tabla {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #dbe4f0;
+}
+
+.error {
+  color: red;
+}
+
+.seguimiento {
+  margin-top: 24px;
+}
+
+#mapaSeguimiento {
+  height: 380px;
+  margin-top: 12px;
+  border-radius: 6px;
+}
+
+.ayuda {
+  color: #666;
+  font-size: 14px;
+}
+
+button {
+  padding: 6px 14px;
+  cursor: pointer;
+}
