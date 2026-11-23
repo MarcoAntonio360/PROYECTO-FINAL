@@ -49,3 +49,7 @@ button {
   display: flex;
   gap: 8px;
 }
+
+.separador {
+  margin-top: 32px;
+}

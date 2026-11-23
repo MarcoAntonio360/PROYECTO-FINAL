@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { Productos } from '../../servicios/productos';
 import { Categorias } from '../../servicios/categorias';
 import { TablaProductos } from '../../componentes/tabla-productos/tabla-productos';
+import { GestionCategorias } from '../../componentes/gestion-categorias/gestion-categorias';
 import { Producto, ProductoNuevo } from '../../modelos/producto';
 
 @Component({
   selector: 'app-admin-productos',
-  imports: [FormsModule, TablaProductos],
+  imports: [FormsModule, TablaProductos, GestionCategorias],
   templateUrl: './admin-productos.html',
   styleUrl: './admin-productos.css',
 })
