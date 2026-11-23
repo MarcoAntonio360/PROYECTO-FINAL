@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import * as L from 'leaflet';
 import { Pedidos } from '../../servicios/pedidos';
 import { Mapa } from '../../servicios/mapa';
 import { EnviosHub } from '../../servicios/envios-hub';
 import { Pedido } from '../../modelos/pedido';
+import { Grafica } from '../../componentes/grafica/grafica';
 
 @Component({
   selector: 'app-admin-pedidos',
-  imports: [CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, Grafica],
   templateUrl: './admin-pedidos.html',
   styleUrl: './admin-pedidos.css',
 })
@@ -23,6 +24,24 @@ export class AdminPedidos implements OnInit, AfterViewInit, OnDestroy {
   moviendo = signal(false);
   mensaje = signal('');
   exito = signal(false);
+
+  pedidosPorEstado = computed(() => {
+    const estados = ['En Recolección', 'En Distribución', 'Entregado'];
+    const lista = this.pedidos.pedidos();
+    const valores = estados.map((estado) => lista.filter((p) => p.estado === estado).length);
+    return { etiquetas: estados, valores: valores };
+  });
+
+    ventasPorCategoria = computed(() => {
+    const totales: Record<string, number> = {};
+    for (const pedido of this.pedidos.pedidos()) {
+      for (const detalle of pedido.detalles) {
+        const categoria = detalle.producto?.categoria?.nombre || 'Sin categoría';
+        totales[categoria] = (totales[categoria] || 0) + detalle.subtotal;
+      }
+    }
+    return { etiquetas: Object.keys(totales), valores: Object.values(totales) };
+  });
 
   private mapaLeaflet: L.Map | null = null;
   private capa: L.LayerGroup | null = null;

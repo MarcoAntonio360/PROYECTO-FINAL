@@ -82,3 +82,23 @@
 
   <div id="mapaAdmin"></div>
 </section>
+
+
+  <section class="graficas">
+  <h3>Estadísticas</h3>
+
+    <app-grafica
+    tipo="bar"
+    titulo="Pedidos por estado"
+    nombreDatos="Pedidos"
+    [etiquetas]="pedidosPorEstado().etiquetas"
+    [valores]="pedidosPorEstado().valores"
+  />
+   <app-grafica
+    tipo="bar"
+    titulo="Ventas por categoría"
+    nombreDatos="Ventas ($)"
+    [etiquetas]="ventasPorCategoria().etiquetas"
+    [valores]="ventasPorCategoria().valores"
+  />
+</section>

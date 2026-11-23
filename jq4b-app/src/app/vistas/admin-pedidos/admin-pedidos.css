@@ -63,3 +63,12 @@ button {
 .exito {
   color: green;
 }
+
+.graficas {
+  margin-top: 24px;
+}
+
+app-grafica {
+  display: block;
+  margin-bottom: 16px;
+}
