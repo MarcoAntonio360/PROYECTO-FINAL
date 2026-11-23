@@ -94,6 +94,15 @@
     [etiquetas]="pedidosPorEstado().etiquetas"
     [valores]="pedidosPorEstado().valores"
   />
+
+    <app-grafica
+    tipo="bar"
+    titulo="Ventas por fecha"
+    nombreDatos="Ventas ($)"
+    [etiquetas]="ventasPorFecha().etiquetas"
+    [valores]="ventasPorFecha().valores"
+  />
+
    <app-grafica
     tipo="bar"
     titulo="Ventas por categoría"

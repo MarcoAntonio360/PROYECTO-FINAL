@@ -43,6 +43,19 @@ export class AdminPedidos implements OnInit, AfterViewInit, OnDestroy {
     return { etiquetas: Object.keys(totales), valores: Object.values(totales) };
   });
 
+    ventasPorFecha = computed(() => {
+    const totales: Record<string, number> = {};
+    for (const pedido of this.pedidos.pedidos()) {
+      const dia = pedido.fecha.slice(0, 10);
+      totales[dia] = (totales[dia] || 0) + pedido.total;
+    }
+    const dias = Object.keys(totales).sort();
+    return {
+      etiquetas: dias.map((dia) => dia.split('-').reverse().join('/')),
+      valores: dias.map((dia) => totales[dia] || 0)
+    };
+  });
+
   private mapaLeaflet: L.Map | null = null;
   private capa: L.LayerGroup | null = null;
   private readonly ultimoPunto = 2;
