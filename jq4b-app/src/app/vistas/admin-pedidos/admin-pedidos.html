@@ -1,2 +1,84 @@
 <h2>Administración de pedidos</h2>
-<p>Vista pendiente de desarrollar.</p>
+
+<p>
+  Tiempo real:
+  <span [class]="hub.claseEstado()">{{ hub.estadoConexion() }}</span>
+</p>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (cargando()) {
+  <p>Cargando pedidos…</p>
+} @else if (pedidos.pedidos().length > 0) {
+  <div class="contenedor-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Dirección</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (pedido of pedidos.pedidos(); track pedido.id) {
+          <tr [class.seleccionada]="pedidoSeleccionado()?.id === pedido.id">
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.usuario?.nombre }}</td>
+            <td>{{ pedido.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ pedido.direccionEntrega }}</td>
+            <td>{{ pedido.total | currency }}</td>
+            <td>{{ pedido.estado }}</td>
+            <td>
+              <button type="button" (click)="seleccionar(pedido)">Gestionar envío</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else if (!error()) {
+  <p>No hay pedidos registrados.</p>
+}
+
+<section class="seguimiento">
+  <h3>Seguimiento del envío</h3>
+
+  @if (pedidoSeleccionado(); as seleccionado) {
+    <p>
+      Pedido {{ seleccionado.id }} · {{ seleccionado.usuario?.nombre }} · Estado:
+      <strong>{{ seleccionado.estado }}</strong>
+    </p>
+
+    <div class="botones">
+      <button
+        type="button"
+        [disabled]="moviendo() || seleccionado.indiceActual === 0"
+        (click)="mover(-1)"
+      >
+        Retroceder
+      </button>
+      <button
+        type="button"
+        class="principal"
+        [disabled]="moviendo() || seleccionado.indiceActual === 2"
+        (click)="mover(1)"
+      >
+        Avanzar
+      </button>
+    </div>
+  } @else {
+    <p class="ayuda">Pulse "Gestionar envío" en un pedido para verlo en el mapa.</p>
+  }
+
+  @if (mensaje()) {
+    <p [class.exito]="exito()" [class.error]="!exito()">{{ mensaje() }}</p>
+  }
+
+  <div id="mapaAdmin"></div>
+</section>
