@@ -1,2 +1,60 @@
-<h2>Checkout</h2>
-<p>Vista pendiente de desarrollar.</p>
+<h2>Finalizar compra</h2>
+
+@if (idPedido() !== null) {
+  <div class="exito">
+    <h3>Pedido registrado</h3>
+    <p>Su pedido número {{ idPedido() }} se creó correctamente.</p>
+    @if (aviso()) {
+      <p class="error">{{ aviso() }}</p>
+    }
+    <a routerLink="/mis-pedidos">Ver mis pedidos</a>
+  </div>
+} @else if (!usuarios.usuarioActual()) {
+  <p>Debe iniciar sesión para finalizar su compra.</p>
+  <a routerLink="/login">Iniciar sesión</a>
+} @else if (carrito.items().length === 0) {
+  <p>Su carrito está vacío.</p>
+  <a routerLink="/catalogo">Ir al catálogo</a>
+} @else {
+  <div class="contenido">
+    <section class="entrega">
+      <h3>Datos de entrega</h3>
+
+      <div class="campo">
+        <label>Dirección de entrega</label>
+        <input type="text" [ngModel]="direccion()" (ngModelChange)="cambiarDireccion($event)">
+      </div>
+
+      <p>Punto en el mapa: <strong>{{ textoPunto() }}</strong></p>
+      <button type="button" (click)="usarMiUbicacion()">Usar mi ubicación</button>
+      <p class="ayuda">También puede hacer clic en el mapa para marcar el punto de entrega.</p>
+
+      <div id="mapaEntrega"></div>
+    </section>
+
+    <section class="resumen">
+      <h3>Resumen del pedido</h3>
+      <ul>
+        @for (item of carrito.items(); track item.idProducto) {
+          <li>
+            {{ item.cantidad }} × {{ item.nombre }}
+            <span>{{ (item.precio * item.cantidad) | currency }}</span>
+          </li>
+        }
+      </ul>
+      <p class="total">Total: {{ carrito.total() | currency }}</p>
+
+      <button type="button" class="principal" [disabled]="enviando()" (click)="confirmar()">
+        {{ enviando() ? 'Enviando…' : 'Confirmar pedido' }}
+      </button>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      @if (aviso()) {
+        <p class="aviso">{{ aviso() }}</p>
+      }
+    </section>
+  </div>
+}
